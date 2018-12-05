@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClassLibrary3
 {
-    public class Type
+    public static class Type
     {
         public static int INT = 0;
         public static int FLOAT = 1;

@@ -8,8 +8,8 @@ namespace ClassLibrary3
 {
     public class Relation:Attribute
     {
-        public string ID { get; private set; }
-        public string TableName { get; private set; }
+        protected string ID;
+        protected string TableName;
 
         public Relation(string ID, string TableName)
         {
@@ -17,5 +17,7 @@ namespace ClassLibrary3
             this.TableName = TableName;
         }
 
+        public string id { get { return this.ID; } }
+        public string tabname { get { return this.TableName; } }
     }
 }
