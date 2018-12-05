@@ -8,9 +8,9 @@ namespace ClassLibrary3
 {
     class ForeignKey:Attribute
     {
-        public string ID { get; private set; }
-        public string Name { get; private set; }
-        public string References { get; private set; }
+        private string ID;
+        private string Name;
+        private string References;
 
         public ForeignKey(string ID, string Name, string References)
         {
@@ -18,5 +18,9 @@ namespace ClassLibrary3
             this.Name = Name;
             this.References = References;
         }
+
+        public string id { get { return this.ID; } }
+        public string name { get { return this.Name; } }
+        public string references { get { return this.References; } }
     }
 }

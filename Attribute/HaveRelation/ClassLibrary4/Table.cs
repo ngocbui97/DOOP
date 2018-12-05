@@ -8,11 +8,13 @@ namespace ClassLibrary3
 {
     public class Table : Attribute
     {
-        public string Name { get; set; }
+        private string Name;
 
         public Table(string Name)
         {
             this.Name = Name;
         }
+
+        public string name { get { return this.Name; } }
     }
 }

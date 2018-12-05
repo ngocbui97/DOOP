@@ -8,13 +8,16 @@ namespace ClassLibrary3
 {
     class PrimaryKey:Attribute
     {
-        public string Name { get; private set; }
-        public bool Auto { get; private set; }
+        private string Name;
+        private bool Auto;
 
         public PrimaryKey(string Name, bool Auto)
         {
             this.Name = Name;
             this.Auto = Auto;
         }
+
+        public string name { get { return this.Name; } }
+        public bool auto { get { return this.Auto; } }
     }
 }
