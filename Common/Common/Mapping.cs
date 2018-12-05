@@ -10,20 +10,19 @@ namespace Common
 {
     class Mapping
     {
-        public T MapWithRelationship<T>(Connection cnn, DataRow dr) where T : new()
+        public T MapAndRelationship<T>(Connection cnn, DataRow dr) where T : new()
         {
             T obj = new T();
-            var properties = typeof(T).GetProperties();
-
-            foreach (var property in properties)
+            var listp = typeof(T).GetProperties();
+            for (int i = 0; i < listp.Length; i++)
             {
-                var attributes = property.GetCustomAttributes(false);
-                var columnMapping = FirstOrDefault(attributes, typeof(Column));
+                var p = listp[i];
+                var column = GetFirstOrNull( p.GetCustomAttributes(false), typeof(Column));
 
-                if (columnMapping != null)
+                if (column != null)
                 {
-                    var mapsTo = columnMapping as Column;
-                    property.SetValue(obj, dr[mapsTo.Name]);
+                    var mapsTo = column as Column;
+                    p.SetValue(obj, dr[mapsTo.Name]);
                 }
             }
 
@@ -33,20 +32,20 @@ namespace Common
             return obj;
         }
 
-        public T MapWithOutRelationship<T>(Connection cnn, DataRow dr) where T : new()
+        //Map không có quan hệ: None Relationship
+        public T Map<T>(Connection cnn, DataRow dr) where T : new()
         {
             T obj = new T();
-            var properties = typeof(T).GetProperties();
+            var listp = typeof(T).GetProperties();
 
-            foreach (var property in properties)
+            for (int i = 0; i < listp.Length; i++ )
             {
-                var attributes = property.GetCustomAttributes(false);
-
-                var columnMapping = FirstOrDefault(attributes, typeof(Column));
-                if (columnMapping != null)
+                var p = listp[i];
+                var column = GetFirstOrNull( p.GetCustomAttributes(false), typeof(Column));
+                if (column != null)
                 {
-                    var mapsTo = columnMapping as Column;
-                    property.SetValue(obj, dr[mapsTo.Name]);
+                    var mapsTo = column as Column;
+                    p.SetValue(obj, dr[mapsTo.Name]);
                 }
             }
 
@@ -59,95 +58,93 @@ namespace Common
         public string GetTableName<T>() where T : new()
         {
             var tableAttributes = typeof(T).GetCustomAttributes(typeof(Table), true);
-            var tableAttribute = FirstOrDefault(tableAttributes, typeof(Table)) as Table;
+            var tableAttribute = GetFirstOrNull(tableAttributes, typeof(Table)) as Table;
             if (tableAttribute != null)
                 return tableAttribute.Name;
             return string.Empty;
         }
 
-        public List<PrimaryKey> GetPrimaryKeys<T>() where T : new()
+        public List<PrimaryKey> GetPrimaryKey<T>() where T : new()
         {
-            List<PrimaryKey> primaryKeys = new List<PrimaryKey>();
+            List<PrimaryKey> listPK = new List<PrimaryKey>();
 
-            var properties = typeof(T).GetProperties();
-            foreach (var property in properties)
-            {
-                var attributes = property.GetCustomAttributes(false);
-                var primaryKeyAttribute = FirstOrDefault(attributes, typeof(PrimaryKey));
-                if (primaryKeyAttribute != null)
-                    primaryKeys.Add(primaryKeyAttribute as PrimaryKey);
-            }
-
-            if (primaryKeys.Count > 0)
-                return primaryKeys;
-            else
-                return null;
-        }
-
-        public List<ForeignKey> GetForeignKeys<T>(string relationshipID) where T : new()
-        {
-            List<ForeignKey> foreignKeys = new List<ForeignKey>();
-
-            var properties = typeof(T).GetProperties();
-            foreach (var property in properties)
-            {
-                var attributes = property.GetCustomAttributes(false);
-                var foreignKeyAttribute = FirstOrDefault(attributes, typeof(ForeignKey));
-                if (foreignKeyAttribute != null && (foreignKeyAttribute as ForeignKey).RelationshipID == relationshipID)
-                    foreignKeys.Add(foreignKeyAttribute as ForeignKey);
-            }
-
-            if (foreignKeys.Count > 0)
-                return foreignKeys;
-            else
-                return null;
-        }
-
-        public List<Column> GetColumns<T>() where T : new()
-        {
-            List<Column> columnAttributes = new List<Column>();
-            var properties = typeof(T).GetProperties();
-            foreach (var property in properties)
-            {
-                var attributes = property.GetCustomAttributes(false);
-                var columnMapping = FirstOrDefault(attributes, typeof(Column));
-
-                if (columnMapping != null)
+            var listp = typeof(T).GetProperties();
+            for (int i = 0; i < listp.Length; i++)
                 {
-                    var mapsTo = columnMapping as Column;
-                    columnAttributes.Add(mapsTo);
+                    var p = listp[i];
+                    var PK = GetFirstOrNull( p.GetCustomAttributes(false), typeof(PrimaryKey));
+                    if (PK != null)
+                        listPK.Add(PK as PrimaryKey);
+                }
+
+            if (listPK.Count > 0)
+                return listPK;
+            else
+                return null;
+        }
+
+        public List<ForeignKey> GetForeignKey<T>(string ID) where T : new()
+        {
+            List<ForeignKey> listFK = new List<ForeignKey>();
+
+            var listp = typeof(T).GetProperties();
+            for (int i = 0; i < listp.Length; i++)
+                {
+                    var p = listp[i];
+                    var FK = GetFirstOrNull(p.GetCustomAttributes(false), typeof(ForeignKey));
+                    if (FK != null && (FK as ForeignKey).RelationshipID == ID)
+                        listFK.Add(FK as ForeignKey);
+                }
+
+            if (listFK.Count > 0)
+                return listFK;
+            else
+                return null;
+        }
+
+        public List<Column> GetCol<T>() where T : new()
+        {
+            List<Column> listCol = new List<Column>();
+            var listp = typeof(T).GetProperties();
+            for (int i = 0; i < listp.Length; i++)
+            {
+                var p = listp[i];
+                var colMapping = GetFirstOrNull(p.GetCustomAttributes(false), typeof(Column));
+                if (colMapping != null)
+                {
+                    var mapsTo = colMapping as Column;
+                    listCol.Add(mapsTo);
                 }
             }
 
-            if (columnAttributes.Count > 0)
-                return columnAttributes;
+            if (listCol.Count > 0)
+                return listCol;
             else
                 return null;
         }
 
-        public Dictionary<Column, object> GetColumnValues<T>(T obj)
+        public Dictionary<Column, object> GetColValues<T>(T obj)
         {
-            Dictionary<Column, object> listColumnValues = new Dictionary<Column, object>();
-            var properties = typeof(T).GetProperties();
-            foreach (var property in properties)
+            Dictionary<Column, object> listColValues = new Dictionary<Column, object>();
+            var listp = typeof(T).GetProperties();
+            for (int i = 0; i < listp.Length; i++)
             {
-                var attributes = property.GetCustomAttributes(false);
-                var columnMapping = FirstOrDefault(attributes, typeof(Column));
-
-                if (columnMapping != null)
+                var p = listp[i];
+                var colMapping = GetFirstOrNull( p.GetCustomAttributes(false), typeof(Column));
+                if (colMapping != null)
                 {
-                    var mapsTo = columnMapping as Column;
-                    listColumnValues.Add(mapsTo, property.GetValue(obj, null));
+                    var mapsTo = colMapping as Column;
+                    listColValues.Add(mapsTo, p.GetValue(obj, null));
                 }
             }
 
-            if (listColumnValues.Count > 0)
-                return listColumnValues;
+            if (listColValues.Count > 0)
+                return listColValues;
             else
                 return null;
         }
 
-        public Column FindColumn(string name, Dictionary<Column, object> listColumValues)
+        public Column FindCol(string name, Dictionary<Column, object> listColumValues)
         {
             foreach (Column column in listColumValues.Keys)
                 if (column.Name == name)
@@ -163,21 +160,25 @@ namespace Common
             return null;
         }
 
-        protected object FirstOrDefault(object[] attributes, Type type)
+        //listA = list Atribute
+        protected object GetFirstOrNull(object[] listA, Type type)
         {
-            foreach (var a in attributes)
-            {
-                if (a.GetType() == type)
-                    return a;
-            }
+
+            for (int i = 0; i < listA.Length; i++)
+                {
+                    var a = listA[i];
+                    if (a.GetType() == type)
+                        return a;
+                }
             return null;
         }
 
-        protected object[] GetAll(object[] attributes, Type type)
+        protected object[] GetAll(object[] listA, Type type)
         {
             object[] objArray = new object[0];
-            foreach (var a in attributes)
+            for (int i = 0; i < listA.Length; i++)
             {
+                var a = listA[i];
                 if (a.GetType() == type)
                 {
                     Array.Resize(ref objArray, objArray.Length + 1);
