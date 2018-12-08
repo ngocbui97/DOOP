@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{924BE6E4-22F4-4B95-B5C5-B7A78C2551CF}</ProjectGuid>
+    <ProjectGuid>{F236F715-F6F9-4E1F-B6DC-F5B4B104A4C8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ClassLibrary4</RootNamespace>
-    <AssemblyName>ClassLibrary4</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <RootNamespace>DOOP</RootNamespace>
+    <AssemblyName>DOOP</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -40,23 +40,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Column.cs" />
-    <Compile Include="ForeignKey.cs" />
-    <Compile Include="ManyOne.cs" />
-    <Compile Include="OneMany.cs" />
-    <Compile Include="OneOne.cs" />
-    <Compile Include="PrimaryKey.cs" />
+    <Compile Include="Attributes\Column.cs" />
+    <Compile Include="Attributes\ForeignKey.cs" />
+    <Compile Include="Attributes\ManyOne.cs" />
+    <Compile Include="Attributes\OneMany.cs" />
+    <Compile Include="Attributes\OneOne.cs" />
+    <Compile Include="Attributes\PrimaryKey.cs" />
+    <Compile Include="Attributes\Relation.cs" />
+    <Compile Include="Attributes\Table.cs" />
+    <Compile Include="Attributes\TypeDataRecord.cs" />
+    <Compile Include="Common\aConnection.cs" />
+    <Compile Include="Common\aMapping.cs" />
+    <Compile Include="Common\IQueryRun.cs" />
+    <Compile Include="Common\IQuerySQL.cs" />
+    <Compile Include="DAO\Connection.cs" />
+    <Compile Include="DAO\Delete.cs" />
+    <Compile Include="DAO\Insert.cs" />
+    <Compile Include="DAO\Map.cs" />
+    <Compile Include="DAO\Querry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Relation.cs" />
-    <Compile Include="Table.cs" />
-    <Compile Include="Type.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

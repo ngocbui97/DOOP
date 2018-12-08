@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using System.Collections;
 using System.Data;
 using DOOP_FRAMEWORK.Attributes;
-
+using DOOP_FRAMEWORK.DAO;
 namespace DOOP_FRAMEWORK.Common
 {
-   public abstract class Mapping
+   public abstract class aMapping
     {
         public T MapAndRelationship<T>(Connection cnn, DataRow dr) where T : new()
         {
@@ -34,7 +34,7 @@ namespace DOOP_FRAMEWORK.Common
         }
 
         //Map không có quan hệ: None Relationship
-        public T Map<T>(Connection cnn, DataRow dr) where T : new()
+        public T MapNoneRelationShip<T>(Connection cnn, DataRow dr) where T : new()
         {
             T obj = new T();
             var listp = typeof(T).GetProperties();
@@ -153,7 +153,7 @@ namespace DOOP_FRAMEWORK.Common
             return null;
         }
 
-        public Column FindColumn(string name, List<Column> listColumAttributes)
+        public Column FindCol(string name, List<Column> listColumAttributes)
         {
             foreach (Column column in listColumAttributes)
                 if (column.name == name)

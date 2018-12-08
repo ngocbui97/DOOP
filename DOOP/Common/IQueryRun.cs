@@ -10,11 +10,11 @@ namespace DOOP_FRAMEWORK.Common
         public interface IQuery
         {
             List<T> ExecuteQuery<T>() where T : new();
-            List<T> ExecuteQueryWithOutRelationship<T>() where T : new();
-            int ExecuteNonQuery();
+            List<T> ExecuteQueryNoneRelationShip<T>() where T : new();
+            void ExecuteNonQuery();
         }
 
-        public interface RunQuery<T> where T : new()
+        public interface IRunQuery<T> where T : new()
         {
             List<T> Run();
         }
