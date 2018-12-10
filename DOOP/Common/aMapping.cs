@@ -65,34 +65,29 @@ namespace DOOP_FRAMEWORK.Common
             return string.Empty;
         }
 
-        public List<PrimaryKey> GetPrimaryKey<T>() where T : new()
+        internal List<PrimaryKey> GetPrimaryKey<T>() where T : new()
         {
             List<PrimaryKey> listPK = new List<PrimaryKey>();
-
             var listp = typeof(T).GetProperties();
-            for (int i = 0; i < listp.Length; i++)
-                {
-                    var p = listp[i];
-                    var PK = GetFirstOrNull( p.GetCustomAttributes(false), typeof(PrimaryKey));
-                    if (PK != null)
-                        listPK.Add(PK as PrimaryKey);
-                }
-
-            if (listPK.Count > 0)
+            foreach (var p in listp)
+            {
+                var PK = GetFirstOrNull(p.GetCustomAttributes(false), typeof(PrimaryKey));
+                if (PK != null)
+                    listPK.Add(PK as PrimaryKey);
+            }
+           if (listPK.Count > 0)
                 return listPK;
-            else
-                return null;
+           else return null;
         }
 
-        public List<ForeignKey> GetForeignKey<T>(string ID) where T : new()
+        internal List<ForeignKey> GetForeignKey<T>(string ID) where T : new()
         {
             List<ForeignKey> listFK = new List<ForeignKey>();
 
             var listp = typeof(T).GetProperties();
             for (int i = 0; i < listp.Length; i++)
                 {
-                    var p = listp[i];
-                    var FK = GetFirstOrNull(p.GetCustomAttributes(false), typeof(ForeignKey));
+                    var FK = GetFirstOrNull(listp[i].GetCustomAttributes(false), typeof(ForeignKey));
                     if (FK != null && (FK as ForeignKey).id == ID)
                         listFK.Add(FK as ForeignKey);
                 }
@@ -167,9 +162,8 @@ namespace DOOP_FRAMEWORK.Common
 
             for (int i = 0; i < listA.Length; i++)
                 {
-                    var a = listA[i];
-                    if (a.GetType() == type)
-                        return a;
+                if (listA[i].GetType().Equals(type))
+                    return listA[i] ;
                 }
             return null;
         }
