@@ -12,7 +12,7 @@ namespace DOOP_FRAMEWORK.DAO
         public Delete(SqlConnection cnn, string connectionString, T obj) : base(cnn, connectionString)
         {
             Map map = new Map();
-            string tableName = map.GetTableName<T>();
+            string tbName = map.GetTableName<T>();
             List<PrimaryKey> primaryKeys = map.GetPrimaryKey<T>();
             Dictionary<Column, object> listColumnValues = map.GetColValues<T>(obj);
 
@@ -34,7 +34,7 @@ namespace DOOP_FRAMEWORK.DAO
             if (!string.IsNullOrEmpty(whereStr))
             {
                 whereStr = whereStr.Substring(0, whereStr.Length - 2);
-                queryString = string.Format("DELETE {0} WHERE {1}", tableName, whereStr);
+                queryString = string.Format("DELETE {0} WHERE {1}", tbName, whereStr);
             }
         }
     }

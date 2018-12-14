@@ -12,14 +12,14 @@ namespace DOOP_FRAMEWORK.DAO
         public Insert(SqlConnection cnn, string connectionString, T obj) : base(cnn, connectionString)
         {
             Map map = new Map();
-            string tableName = map.GetTableName<T>();
+            string tbName = map.GetTableName<T>();
             List<PrimaryKey> primaryKeys = map.GetPrimaryKey<T>();
             Dictionary<Column, object> lColValues = map.GetColValues<T>(obj);
 
             if (lColValues.Count != 0)
             {
-                string columnStr = string.Empty;
-                string valueStr = string.Empty;
+                string colStr = string.Empty;
+                string valStr = string.Empty;
 
                 foreach (Column column in lColValues.Keys)
                 {
@@ -40,15 +40,15 @@ namespace DOOP_FRAMEWORK.DAO
                             format = "N'{0}', ";
                         else if (column.type == TypeDataRecord.CHAR || column.type == TypeDataRecord.VARCHAR)
                             format = "'{0}', ";
-                        columnStr += string.Format("{0}, ", column.name);
-                        valueStr += string.Format(format, lColValues[column]);
+                        colStr += string.Format("{0}, ", column.name);
+                        valStr += string.Format(format, lColValues[column]);
                     }
                 }
-                if (!string.IsNullOrEmpty(columnStr) && !string.IsNullOrEmpty(valueStr))
+                if (!string.IsNullOrEmpty(colStr) && !string.IsNullOrEmpty(valStr))
                 {
-                    columnStr = columnStr.Substring(0, columnStr.Length - 2);
-                    valueStr = valueStr.Substring(0, valueStr.Length - 2);
-                    queryString = string.Format("INSERT INTO {0} ({1}) VALUES ({2})", tableName, columnStr, valueStr);
+                    colStr = colStr.Substring(0, colStr.Length - 2);
+                    valStr = valStr.Substring(0, valStr.Length - 2);
+                    queryString = string.Format("INSERT INTO {0} ({1}) VALUES ({2})", tbName, colStr, valStr);
                 }
             }
         }

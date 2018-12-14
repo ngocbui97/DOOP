@@ -32,7 +32,7 @@ namespace DOOP.DAO
             this.cnnString = cnnString;
         }
 
-        public List<T> ExecuteQuery<T>() where T : new()
+        public List<T> EQuery<T>() where T : new()
         {
             List<T> res = new List<T>();
             Connection cnn = new Connection(cnnString);
@@ -47,7 +47,7 @@ namespace DOOP.DAO
             return res;
         }
 
-        public List<T> ExecuteQueryNoneRelationShip<T>() where T : new()
+        public List<T> EQueryNoneRelationShip<T>() where T : new()
         {
             Connection cnn = new Connection(cnnString);
             cmd.CommandText = queryString;
@@ -63,7 +63,7 @@ namespace DOOP.DAO
             return res;
         }
 
-        public void ExecuteNonQuery()
+        public void ENoneQuery()
         {
             cmd.CommandText = this.queryString;
             cmd.CommandType = CommandType.Text;
