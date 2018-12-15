@@ -11,7 +11,7 @@ namespace DOOP_FRAMEWORK.Common
 {
    public abstract class aMapping
     {
-        public T MapAndRelationship<T>(Connection cnn, DataRow dr) where T : new()
+        public T MapAndRelationship<T>(aConnection cnn, DataRow dr) where T : new()
         {
             T obj = new T();
             var listp = typeof(T).GetProperties();
@@ -34,7 +34,7 @@ namespace DOOP_FRAMEWORK.Common
         }
 
         //Map không có quan hệ: None Relationship
-        public T MapNoneRelationShip<T>(Connection cnn, DataRow dr) where T : new()
+        public T MapNoneRelationShip<T>(aConnection cnn, DataRow dr) where T : new()
         {
             T obj = new T();
             var listp = typeof(T).GetProperties();
@@ -53,7 +53,7 @@ namespace DOOP_FRAMEWORK.Common
             return obj;
         }
 
-        protected abstract void MapOneToMany<T>(Connection cnn, DataRow dr, T obj) where T : new();
+        protected abstract void MapOneToMany<T>(aConnection cnn, DataRow dr, T obj) where T : new();
         protected abstract void MapToOne<T>(Connection cnn, DataRow dr, T obj) where T : new();
 
         public string GetTableName<T>() where T : new()

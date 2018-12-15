@@ -8,8 +8,12 @@ namespace DOOP_FRAMEWORK.Attributes
 {
     public class ManyOne : Relation
     {
+        public string RelationshipID { get; private set; }
+        public string TableName { get; private set; }
+
         public ManyOne(string ID, string TableName) : base(ID, TableName)
         {
         }
+
     }
 }

@@ -58,6 +58,8 @@
     <Compile Include="DAO\Insert.cs" />
     <Compile Include="DAO\Map.cs" />
     <Compile Include="DAO\Querry.cs" />
+    <Compile Include="DAO\Select.cs" />
+    <Compile Include="DAO\Update.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
