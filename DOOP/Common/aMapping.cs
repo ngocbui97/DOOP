@@ -54,7 +54,7 @@ namespace DOOP_FRAMEWORK.Common
         }
 
         protected abstract void MapOneToMany<T>(aConnection cnn, DataRow dr, T obj) where T : new();
-        protected abstract void MapToOne<T>(Connection cnn, DataRow dr, T obj) where T : new();
+        protected abstract void MapToOne<T>(aConnection cnn, DataRow dr, T obj) where T : new();
 
         public string GetTableName<T>() where T : new()
         {

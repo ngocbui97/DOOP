@@ -63,11 +63,11 @@ namespace DOOP.DAO
             return res;
         }
 
-        public void ENoneQuery()
+        public int ENoneQuery()
         {
             cmd.CommandText = this.queryString;
             cmd.CommandType = CommandType.Text;
-            cmd.ExecuteNonQuery();
+            return cmd.ExecuteNonQuery();
         }
     }
 }

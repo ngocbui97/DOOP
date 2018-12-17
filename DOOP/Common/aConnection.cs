@@ -11,7 +11,7 @@ namespace DOOP_FRAMEWORK.Common
         protected string cnnString { get; set; }
         public abstract IWhere<T> Select<T>() where T : new();
         public abstract void Insert<T>(T obj) where T : new();
-        public abstract void Update<T>(T obj) where T : new();
+        public abstract int Update<T>(T obj) where T : new();
         public abstract void Delete<T>(T obj) where T : new();
         public abstract List<T> EQuery<T>(string query) where T : new();
         public abstract List<T> EQueryNoneRelationship<T>(string query) where T : new();

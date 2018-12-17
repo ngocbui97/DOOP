@@ -9,9 +9,9 @@ using DOOP_FRAMEWORK.Common;
 
 namespace DOOP.DAO
 {
-    public class Select<T> : Querry, IWhere<T>, IHaving<T>, IGroupBy<T>, IRunQuery<T> where T : new()
+    public class SelectQuery<T> : Querry, IWhere<T>, IHaving<T>, IGroupBy<T>, IRunQuery<T> where T : new()
     {
-        private Select(SqlConnection cnn, string connectionString) : base(cnn, connectionString)
+        private SelectQuery(SqlConnection cnn, string connectionString) : base(cnn, connectionString)
         {
             Map mapper = new Map();
             queryString += "SELECT";
@@ -25,7 +25,7 @@ namespace DOOP.DAO
 
         public static IWhere<T> Create(SqlConnection cnn, string queryStringString)
         {
-            return new Select<T>(cnn, queryStringString);
+            return new SelectQuery<T>(cnn, queryStringString);
         }
 
         public IHaving<T> Where(string condition)

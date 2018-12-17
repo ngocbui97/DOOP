@@ -11,7 +11,7 @@ namespace DOOP_FRAMEWORK.Common
         {
             List<T> EQuery<T>() where T : new();
             List<T> EQueryNoneRelationShip<T>() where T : new();
-            void ENoneQuery();
+            int ENoneQuery();
         }
 
         public interface IRunQuery<T> where T : new()

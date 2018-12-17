@@ -30,9 +30,10 @@ namespace DOOP_FRAMEWORK.DAO
             q.ENoneQuery();
         }
 
-        public override void Update<T>(T obj)
+        public override int Update<T>(T obj)
         {
-           
+            Update<T> query = new Update<T>(scn, cnnString, obj);
+            return query.ENoneQuery();
         }
 
         public override void Delete<T>(T obj)
@@ -61,7 +62,7 @@ namespace DOOP_FRAMEWORK.DAO
 
         public override IWhere<T> Select<T>()
         {
-            throw new NotImplementedException();
+            return SelectQuery<T>.Create(scn, cnnString);
         }
     }
 }

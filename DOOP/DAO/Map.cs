@@ -80,7 +80,7 @@ namespace DOOP.DAO
         }
 
 
-        protected override void MapToOne<T>(Connection cnn, DataRow dr, T obj)
+        protected override void MapToOne<T>(aConnection cnn, DataRow dr, T obj)
         {
             var properties = typeof(T).GetProperties();
 
