@@ -40,19 +40,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\Column.cs" />
-    <Compile Include="Attributes\ForeignKey.cs" />
-    <Compile Include="Attributes\ManyOne.cs" />
-    <Compile Include="Attributes\OneMany.cs" />
-    <Compile Include="Attributes\OneOne.cs" />
-    <Compile Include="Attributes\PrimaryKey.cs" />
-    <Compile Include="Attributes\Relation.cs" />
-    <Compile Include="Attributes\Table.cs" />
-    <Compile Include="Attributes\TypeDataRecord.cs" />
-    <Compile Include="Common\aConnection.cs" />
-    <Compile Include="Common\aMapping.cs" />
-    <Compile Include="Common\IQueryRun.cs" />
-    <Compile Include="Common\IQuerySQL.cs" />
+    <Compile Include="PropertySQL\Column.cs" />
+    <Compile Include="PropertySQL\ForeignKey.cs" />
+    <Compile Include="PropertySQL\ManyOne.cs" />
+    <Compile Include="PropertySQL\OneMany.cs" />
+    <Compile Include="PropertySQL\OneOne.cs" />
+    <Compile Include="PropertySQL\PrimaryKey.cs" />
+    <Compile Include="PropertySQL\Relation.cs" />
+    <Compile Include="PropertySQL\Table.cs" />
+    <Compile Include="PropertySQL\TypeDataRecord.cs" />
+    <Compile Include="Public\aConnection.cs" />
+    <Compile Include="Public\aMapping.cs" />
+    <Compile Include="QuerrySQL\IQueryRun.cs" />
+    <Compile Include="QuerrySQL\IQuerySQL.cs" />
     <Compile Include="DAO\Connection.cs" />
     <Compile Include="DAO\Delete.cs" />
     <Compile Include="DAO\Insert.cs" />
@@ -62,5 +62,6 @@
     <Compile Include="DAO\Update.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

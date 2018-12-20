@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DOOP_FRAMEWORK.Common;
+using DOOP_FRAMEWORK.QuerrySQL;
 using DOOP_FRAMEWORK.DAO;
 
 namespace DOOP.DAO

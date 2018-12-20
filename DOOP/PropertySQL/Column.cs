@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DOOP_FRAMEWORK.Attributes
+namespace DOOP_FRAMEWORK.PropertySQL
 {
     public class Column:Attribute
     {

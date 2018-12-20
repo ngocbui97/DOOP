@@ -4,17 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DOOP_FRAMEWORK.Attributes
+namespace DOOP_FRAMEWORK.PropertySQL
 {
-    public class Table : Attribute
+    class PrimaryKey:Attribute
     {
         private string Name;
+        private bool Auto;
 
-        public Table(string Name)
+        public PrimaryKey(string Name, bool Auto)
         {
             this.Name = Name;
+            this.Auto = Auto;
         }
 
         public string name { get { return this.Name; } }
+        public bool auto { get { return this.Auto; } }
     }
 }

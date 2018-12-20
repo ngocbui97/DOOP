@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Text;
 using DOOP.DAO;
-using DOOP_FRAMEWORK.Attributes;
+using DOOP_FRAMEWORK.PropertySQL;
 
 namespace DOOP_FRAMEWORK.DAO
 {

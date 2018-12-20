@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-namespace DOOP_FRAMEWORK.Common
+using DOOP_FRAMEWORK.QuerrySQL;
+namespace DOOP_FRAMEWORK.Public
 {
    public abstract class aConnection
     {

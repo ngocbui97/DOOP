@@ -4,9 +4,10 @@ using System.Reflection;
 using System.Data;
 using System.Text;
 using System.Threading.Tasks;
-using DOOP_FRAMEWORK.Attributes;
-using DOOP_FRAMEWORK.Common;
+using DOOP_FRAMEWORK.PropertySQL;
+using DOOP_FRAMEWORK.QuerrySQL;
 using DOOP_FRAMEWORK.DAO;
+using DOOP_FRAMEWORK.Public;
 
 namespace DOOP.DAO
 {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DOOP_FRAMEWORK.Common
+namespace DOOP_FRAMEWORK.QuerrySQL
 {
 
         public interface IQuery

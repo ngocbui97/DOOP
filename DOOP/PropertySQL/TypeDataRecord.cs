@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DOOP_FRAMEWORK.Attributes
+namespace DOOP_FRAMEWORK.PropertySQL
 {
     public static class TypeDataRecord
     {

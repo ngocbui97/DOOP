@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using DOOP_FRAMEWORK.Common;
+using DOOP_FRAMEWORK.Public;
 using System.Data.SqlClient;
 using DOOP.DAO;
+using DOOP_FRAMEWORK.QuerrySQL;
 
 namespace DOOP_FRAMEWORK.DAO
 {

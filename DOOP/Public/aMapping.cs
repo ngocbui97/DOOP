@@ -5,53 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
 using System.Data;
-using DOOP_FRAMEWORK.Attributes;
-using DOOP_FRAMEWORK.DAO;
-namespace DOOP_FRAMEWORK.Common
+using DOOP_FRAMEWORK.PropertySQL;
+
+namespace DOOP_FRAMEWORK.Public
 {
    public abstract class aMapping
     {
-        public T MapAndRelationship<T>(aConnection cnn, DataRow dr) where T : new()
-        {
-            T obj = new T();
-            var listp = typeof(T).GetProperties();
-            for (int i = 0; i < listp.Length; i++)
-            {
-                var p = listp[i];
-                var column = GetFirstOrNull( p.GetCustomAttributes(false), typeof(Column));
 
-                if (column != null)
-                {
-                    var mapsTo = column as Column;
-                    p.SetValue(obj, dr[mapsTo.name]);
-                }
-            }
-
-            MapOneToMany(cnn, dr, obj);
-            MapToOne(cnn, dr, obj);
-
-            return obj;
-        }
-
-        //Map không có quan hệ: None Relationship
-        public T MapNoneRelationShip<T>(aConnection cnn, DataRow dr) where T : new()
-        {
-            T obj = new T();
-            var listp = typeof(T).GetProperties();
-
-            for (int i = 0; i < listp.Length; i++ )
-            {
-                var p = listp[i];
-                var column = GetFirstOrNull( p.GetCustomAttributes(false), typeof(Column));
-                if (column != null)
-                {
-                    var mapsTo = column as Column;
-                    p.SetValue(obj, dr[mapsTo.name]);
-                }
-            }
-
-            return obj;
-        }
 
         protected abstract void MapOneToMany<T>(aConnection cnn, DataRow dr, T obj) where T : new();
         protected abstract void MapToOne<T>(aConnection cnn, DataRow dr, T obj) where T : new();
@@ -98,6 +58,15 @@ namespace DOOP_FRAMEWORK.Common
                 return null;
         }
 
+        public object GetFirst(IEnumerable source)
+        {
+            IEnumerator ie = source.GetEnumerator();
+            if (ie.MoveNext())
+            {
+                return ie.Current;
+            }
+            return null;
+        }
         public List<Column> GetCol<T>() where T : new()
         {
             List<Column> listCol = new List<Column>();
@@ -121,77 +90,108 @@ namespace DOOP_FRAMEWORK.Common
 
         public Dictionary<Column, object> GetColValues<T>(T obj)
         {
-            Dictionary<Column, object> listColValues = new Dictionary<Column, object>();
-            var listp = typeof(T).GetProperties();
-            for (int i = 0; i < listp.Length; i++)
+            var list = typeof(T).GetProperties();
+            Dictionary<Column, object> listCol = new Dictionary<Column, object>();
+            for (int i = 0; i < list.Length; i++)
             {
-                var p = listp[i];
+                var p = list[i];
                 var colMapping = GetFirstOrNull( p.GetCustomAttributes(false), typeof(Column));
                 if (colMapping != null)
                 {
                     var mapsTo = colMapping as Column;
-                    listColValues.Add(mapsTo, p.GetValue(obj, null));
+                    listCol.Add(mapsTo, p.GetValue(obj, null));
                 }
             }
 
-            if (listColValues.Count > 0)
-                return listColValues;
+            if (listCol.Count > 0)
+                return listCol;
             else
                 return null;
         }
 
-        public Column FindCol(string name, Dictionary<Column, object> listColumValues)
+        public Column FindCol(string name, Dictionary<Column, object> listCol)
         {
-            foreach (Column column in listColumValues.Keys)
-                if (column.name == name)
-                    return column;
+            foreach (Column col in listCol.Keys)
+                if (col.name == name)
+                    return col;
             return null;
         }
-
-        public Column FindCol(string name, List<Column> listColumAttributes)
+        protected object[] GetAll(object[] arrs, Type type)
         {
-            foreach (Column column in listColumAttributes)
-                if (column.name == name)
-                    return column;
+            object[] Arrs = new object[0];
+            for (int i = 0; i < arrs.Length; i++)
+            {
+                var a = arrs[i];
+                if (a.GetType() == type)
+                {
+                    Array.Resize(ref Arrs, Arrs.Length + 1);
+                    Arrs[Arrs.Length - 1] = a;
+                }
+            }
+            return Arrs;
+        }
+        public Column FindCol(string name, List<Column> listCol)
+        {
+            foreach (Column col in listCol)
+                if (col.name == name)
+                    return col;
             return null;
         }
 
         //listA = list Atribute
-        protected object GetFirstOrNull(object[] listA, Type type)
+        protected object GetFirstOrNull(object[] arrs, Type type)
         {
 
-            for (int i = 0; i < listA.Length; i++)
+            for (int i = 0; i < arrs.Length; i++)
                 {
-                if (listA[i].GetType().Equals(type))
-                    return listA[i] ;
+                if (arrs[i].GetType().Equals(type))
+                    return arrs[i] ;
                 }
             return null;
         }
 
-        protected object[] GetAll(object[] listA, Type type)
+        public T MapAndRelationship<T>(aConnection cnn, DataRow dr) where T : new()
         {
-            object[] objArray = new object[0];
-            for (int i = 0; i < listA.Length; i++)
+            T obj = new T();
+            var listp = typeof(T).GetProperties();
+            for (int i = 0; i < listp.Length; i++)
             {
-                var a = listA[i];
-                if (a.GetType() == type)
+                var p = listp[i];
+                var column = GetFirstOrNull(p.GetCustomAttributes(false), typeof(Column));
+
+                if (column != null)
                 {
-                    Array.Resize(ref objArray, objArray.Length + 1);
-                    objArray[objArray.Length - 1] = a;
+                    var mapsTo = column as Column;
+                    p.SetValue(obj, dr[mapsTo.name]);
                 }
             }
-            return objArray;
+
+            MapOneToMany(cnn, dr, obj);
+            MapToOne(cnn, dr, obj);
+
+            return obj;
         }
 
-        public object GetFirst(IEnumerable source)
+        //Map không có quan hệ: None Relationship
+        public T MapNoneRelationShip<T>(aConnection cnn, DataRow dr) where T : new()
         {
-            IEnumerator iter = source.GetEnumerator();
+            T obj = new T();
+            var listp = typeof(T).GetProperties();
 
-            if (iter.MoveNext())
+            for (int i = 0; i < listp.Length; i++)
             {
-                return iter.Current;
+                var p = listp[i];
+                var column = GetFirstOrNull(p.GetCustomAttributes(false), typeof(Column));
+                if (column != null)
+                {
+                    var mapsTo = column as Column;
+                    p.SetValue(obj, dr[mapsTo.name]);
+                }
             }
-            return null;
+
+            return obj;
         }
+       
+
     }
 }

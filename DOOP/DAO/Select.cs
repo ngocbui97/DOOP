@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Text;
 using System.Threading.Tasks;
-using DOOP_FRAMEWORK.Attributes;
+using DOOP_FRAMEWORK.PropertySQL;
 using DOOP_FRAMEWORK.DAO;
-using DOOP_FRAMEWORK.Common;
+using DOOP_FRAMEWORK.QuerrySQL;
 
 namespace DOOP.DAO
 {

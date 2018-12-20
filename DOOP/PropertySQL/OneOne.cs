@@ -4,16 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DOOP_FRAMEWORK.Attributes
+namespace DOOP_FRAMEWORK.PropertySQL
 {
-    public class ManyOne : Relation
+    public class OneOne : Relation
     {
         public string RelationshipID { get; private set; }
         public string TableName { get; private set; }
 
-        public ManyOne(string ID, string TableName) : base(ID, TableName)
+        public OneOne(string ID, string TableName) : base(ID, TableName)
         {
         }
-
     }
 }
