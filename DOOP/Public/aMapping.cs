@@ -11,8 +11,6 @@ namespace DOOP_FRAMEWORK.Public
 {
    public abstract class aMapping
     {
-
-
         protected abstract void MapOneToMany<T>(aConnection cnn, DataRow dr, T obj) where T : new();
         protected abstract void MapToOne<T>(aConnection cnn, DataRow dr, T obj) where T : new();
 

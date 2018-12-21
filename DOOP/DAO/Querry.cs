@@ -16,7 +16,12 @@ namespace DOOP.DAO
         protected SqlCommand cmd;
         protected string queryString;
        
-
+        /// <summary>
+        /// create querry with querrystring
+        /// </summary>
+        /// <param name="cnn"></param>
+        /// <param name="cnnString"></param>
+        /// <param name="queryString"></param>
         public Querry(SqlConnection cnn, string cnnString, string queryString)
         {
             cmd = new SqlCommand();
@@ -24,14 +29,22 @@ namespace DOOP.DAO
             this.cnnString = cnnString;       
             this.queryString = queryString;
         }
-
+        /// <summary>
+        ///  create querry without querrystring
+        /// </summary>
+        /// <param name="cnn"></param>
+        /// <param name="cnnString"></param>
         public Querry(SqlConnection cnn, string cnnString)
         {
             cmd = new SqlCommand();
             cmd.Connection = cnn;
             this.cnnString = cnnString;
         }
-
+        /// <summary>
+        /// Excute this querry with relarion ship
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public List<T> EQuery<T>() where T : new()
         {
             List<T> res = new List<T>();
@@ -46,7 +59,11 @@ namespace DOOP.DAO
                 res.Add(map.MapAndRelationship<T>(cnn, dr));
             return res;
         }
-
+        /// <summary>
+        /// Excute querry without relation ship
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public List<T> EQueryNoneRelationShip<T>() where T : new()
         {
             Connection cnn = new Connection(cnnString);
@@ -62,7 +79,10 @@ namespace DOOP.DAO
 
             return res;
         }
-
+        /// <summary>
+        /// excute querry whitch can return data
+        /// </summary>
+        /// <returns></returns>
         public int ENoneQuery()
         {
             cmd.CommandText = this.queryString;
