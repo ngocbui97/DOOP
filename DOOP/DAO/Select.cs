@@ -28,6 +28,12 @@ namespace DOOP.DAO
             return new SelectQuery<T>(cnn, queryStringString);
         }
 
+        public IGroupBy<T> Having(string condition)
+        {
+            queryString = string.Format("{0} HAVING {1}", queryString, condition);
+            return this;
+        }
+
         public IHaving<T> Where(string condition)
         {
             queryString = string.Format("{0} WHERE {1}", queryString, condition);
@@ -36,12 +42,6 @@ namespace DOOP.DAO
 
         public IHaving<T> AllRow()
         {
-            return this;
-        }
-
-        public IGroupBy<T> Having(string condition)
-        {
-            queryString = string.Format("{0} HAVING {1}", queryString, condition);
             return this;
         }
 

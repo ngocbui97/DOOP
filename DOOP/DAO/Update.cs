@@ -15,15 +15,16 @@ namespace DOOP.DAO
         {
             Map mapper = new Map();
 
-            string tableName = mapper.GetTableName<T>();
-            List<PrimaryKey> primaryKeys = mapper.GetPrimaryKey<T>();
-            Dictionary<Column, object> listColumnValues = mapper.GetColValues<T>(obj);
+            string tableName = mapper.GetTableName<T>();                                //get table name
+            List<PrimaryKey> primaryKeys = mapper.GetPrimaryKey<T>();                   //get list primary key
+            Dictionary<Column, object> listColumnValues = mapper.GetColValues<T>(obj);  //get list column value
 
             if (listColumnValues != null && primaryKeys != null)
             {
                 string setStr = string.Empty;
                 string whereStr = string.Empty;
 
+                //build setString with format 'key1 = value1, key2 = value2'
                 foreach (Column column in listColumnValues.Keys)
                 {
                     string format = "{0} = {1}, ";
@@ -35,8 +36,9 @@ namespace DOOP.DAO
                     setStr += string.Format(format, column.name, listColumnValues[column]);
                 }
                 if (!string.IsNullOrEmpty(setStr))
-                    setStr = setStr.Substring(0, setStr.Length - 2);
+                    setStr = setStr.Substring(0, setStr.Length - 2);       //remove ', ' character in right side
 
+                //build whereString the same at column
                 foreach (PrimaryKey primaryKey in primaryKeys)
                 {
                     Column column = mapper.FindCol(primaryKey.name, listColumnValues);
@@ -54,7 +56,7 @@ namespace DOOP.DAO
                 if (!string.IsNullOrEmpty(whereStr))
                 {
                     whereStr = whereStr.Substring(0, whereStr.Length - 2);
-                    queryString = string.Format("UPDATE {0} SET {1} WHERE {2}", tableName, setStr, whereStr);
+                    queryString = string.Format("UPDATE {0} SET {1} WHERE {2}", tableName, setStr, whereStr);   //set query string
                 }
             }
         }

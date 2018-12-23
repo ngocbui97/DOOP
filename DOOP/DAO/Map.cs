@@ -14,6 +14,12 @@ namespace DOOP.DAO
     public class Map:aMapping
     {
 
+        /// <summary>
+        /// set data to MapOneToMany property in obj
+        /// </summary>
+        /// <param name="cnn"></param>
+        /// <param name="connectionString"></param>
+        /// <param name="obj"></param>
         protected override void MapOneToMany<T>(aConnection cnn, DataRow dr, T obj)
         {
             var properties = typeof(T).GetProperties();
@@ -22,7 +28,9 @@ namespace DOOP.DAO
             {
                 var attributes = property.GetCustomAttributes(false);
 
-                var oneToManyAttributes = GetAll(attributes, typeof(OneMany));
+                var oneToManyAttributes = GetAll(attributes, typeof(OneMany));              //get all attribute one to many
+
+                //set property
                 if (oneToManyAttributes != null && oneToManyAttributes.Length != 0)
                 {
                     foreach (OneMany oneToManyAttribute in oneToManyAttributes)
@@ -33,20 +41,24 @@ namespace DOOP.DAO
                             Type itemType = type.GetGenericArguments()[0];
                             Map mapper = new Map();
 
+                            //get table name
                             MethodInfo getTableNameMethod = mapper.GetType().GetMethod("GetTableName")
                                .MakeGenericMethod(new Type[] { itemType });
                             string tableName = getTableNameMethod.Invoke(mapper, null) as string;
 
+                            //get list foreign key
                             MethodInfo getForeignKeyAttributeMethod = mapper.GetType().GetMethod("GetForeignKeys")
                                 .MakeGenericMethod(new Type[] { itemType });
                             List<ForeignKey> foreignKeyAttributes = getForeignKeyAttributeMethod.Invoke(mapper, new object[] { oneToManyAttribute.RelationshipID }) as List<ForeignKey>;
 
+                            //get list column
                             MethodInfo getColumnAttributeMethod = mapper.GetType().GetMethod("GetColumns")
                                 .MakeGenericMethod(typeof(T));
                             List<Column> columnAttributes = getColumnAttributeMethod.Invoke(mapper, null) as List<Column>;
 
+                            //set where string foreign key
                             string whereStr = string.Empty;
-                            if (foreignKeyAttributes != null)
+                            if (foreignKeyAttributes != null)       
                             {
                                 foreach (ForeignKey foreignKeyAttribute in foreignKeyAttributes)
                                 {
@@ -63,6 +75,7 @@ namespace DOOP.DAO
                                     }
                                 }
                             }
+                            //Execute query if where have relationship
                             if (!string.IsNullOrEmpty(whereStr))
                             {
                                 whereStr = whereStr.Substring(0, whereStr.Length - 2);
@@ -71,7 +84,7 @@ namespace DOOP.DAO
                                 cnn.Open();
                                 MethodInfo method = cnn.GetType().GetMethod("ExecuteQueryWithOutRelationship")
                                 .MakeGenericMethod(new Type[] { itemType });
-                                property.SetValue(obj, method.Invoke(cnn, new object[] { query }));
+                                property.SetValue(obj, method.Invoke(cnn, new object[] { query }));  //return data to property
                                 cnn.Close();
                             }
                         }
@@ -80,7 +93,12 @@ namespace DOOP.DAO
             }
         }
 
-
+        /// <summary>
+        /// set data to OneToOne and ManyToOne property in obj
+        /// </summary>
+        /// <param name="cnn"></param>
+        /// <param name="connectionString"></param>
+        /// <param name="obj"></param>
         protected override void MapToOne<T>(aConnection cnn, DataRow dr, T obj)
         {
             var properties = typeof(T).GetProperties();
@@ -90,6 +108,7 @@ namespace DOOP.DAO
                 Type type = property.PropertyType;
                 var attributes = property.GetCustomAttributes(false);
 
+                //get all object OneOne and ManyOne
                 var arr1 = GetAll(attributes, typeof(OneOne));
                 var arr2 = GetAll(attributes, typeof(ManyOne));
 
@@ -100,6 +119,7 @@ namespace DOOP.DAO
                     arr2.CopyTo(toOneAttributes, arr1.Length);
                 }
 
+                //set property
                 if (toOneAttributes != null && toOneAttributes.Length != 0)
                 {
                     foreach (var attribute in toOneAttributes)
@@ -109,7 +129,7 @@ namespace DOOP.DAO
                         string whereStr = string.Empty;
                         string relationshipID = string.Empty;
 
-                        if (attribute.GetType() == typeof(OneOne))
+                        if (attribute.GetType() == typeof(OneOne))          //get table name
                         {
                             relationshipID = (attribute as OneOne).RelationshipID;
                             tableName = (attribute as OneOne).TableName;
@@ -119,16 +139,17 @@ namespace DOOP.DAO
                             relationshipID = (attribute as ManyOne).RelationshipID;
                             tableName = (attribute as ManyOne).TableName;
                         }
-
+                        //get list foreign key
                         MethodInfo getForeignKeyAttributeMethod = mapper.GetType().GetMethod("GetForeignKeys")
                             .MakeGenericMethod(typeof(T));
                         List<ForeignKey> foreignKeyAttributes = getForeignKeyAttributeMethod.Invoke(mapper, new object[] { relationshipID }) as List<ForeignKey>;
-
+                        
+                        //get list column
                         MethodInfo getColumnAttributeMethod = mapper.GetType().GetMethod("GetColumns")
                             .MakeGenericMethod(new Type[] { type });
-
                         List<Column> columnAttributes = getColumnAttributeMethod.Invoke(mapper, null) as List<Column>;
 
+                        //set where string to query
                         if (foreignKeyAttributes != null)
                         {
                             foreach (ForeignKey foreignKeyAttribute in foreignKeyAttributes)
@@ -146,6 +167,8 @@ namespace DOOP.DAO
                                 }
                             }
                         }
+
+                        //Execute query if have relationship
                         if (!string.IsNullOrEmpty(whereStr))
                         {
                             whereStr = whereStr.Substring(0, whereStr.Length - 2);
@@ -160,7 +183,7 @@ namespace DOOP.DAO
                             MethodInfo method2 = mapper.GetType().GetMethod("GetFirst");
                             var firstElement = method2.Invoke(mapper, new object[] { ienumerable });
 
-                            property.SetValue(obj, firstElement);
+                            property.SetValue(obj, firstElement);       //return data to property
                         }
                     }
                 }

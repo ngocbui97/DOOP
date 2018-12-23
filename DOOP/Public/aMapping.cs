@@ -114,6 +114,8 @@ namespace DOOP_FRAMEWORK.Public
                     return col;
             return null;
         }
+
+        //Get all element with specific type
         protected object[] GetAll(object[] arrs, Type type)
         {
             object[] Arrs = new object[0];
@@ -128,6 +130,8 @@ namespace DOOP_FRAMEWORK.Public
             }
             return Arrs;
         }
+
+
         public Column FindCol(string name, List<Column> listCol)
         {
             foreach (Column col in listCol)
