@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DOOP_FRAMEWORK.PropertySQL
 {
-    class ForeignKey:Attribute
+    public class ForeignKey:Attribute
     {
         private string ID;
         private string Name;

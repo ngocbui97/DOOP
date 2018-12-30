@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace DOOP_FRAMEWORK.PropertySQL
 {
-    public class Relation:Attribute
+    public abstract class Relation:Attribute
     {
-        protected string ID;
-        protected string TableName;
+        protected string RelationID;
+        protected string NameTableRelation;
 
-        public Relation(string ID, string TableName)
+        public Relation(string RelationID, string NameTableRelation)
         {
-            this.ID = ID;
-            this.TableName = TableName;
+            this.RelationID = RelationID;
+            this.NameTableRelation = NameTableRelation;
         }
 
-        public string id { get { return this.ID; } }
-        public string tabname { get { return this.TableName; } }
+        public string relationId { get { return this.RelationID; } }
+        public string nameTableRelation { get { return this.NameTableRelation; } }
     }
 }

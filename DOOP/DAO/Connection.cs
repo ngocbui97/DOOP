@@ -22,7 +22,7 @@ namespace DOOP_FRAMEWORK.DAO
         /// open connection
         /// </summary>
         public override void Open() {
-            if (this.scn == null) { scn.Open(); }
+            if (this.scn == null||this.scn.State==System.Data.ConnectionState.Closed) { scn.Open(); }
         }
 
         /// <summary>

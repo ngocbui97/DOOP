@@ -19,7 +19,7 @@ namespace DOOP_FRAMEWORK.DAO
         {
             Map map = new Map();
             // list pkeys
-            List<PrimaryKey> primaryKeys = map.GetPrimaryKey<T>();
+            List<PrimaryKey> primaryKeys = map.GetPK<T>();
             // list col of obj
             Dictionary<Column, object> lCol = map.GetColValues<T>(obj);
    
@@ -56,7 +56,7 @@ namespace DOOP_FRAMEWORK.DAO
                 {
                     colStr = colStr.Substring(0, colStr.Length - 2);
                     valStr = valStr.Substring(0, valStr.Length - 2);
-                    queryString = string.Format("INSERT INTO {0} ({1}) VALUES ({2})", map.GetTableName<T>(), colStr, valStr);
+                    queryString = string.Format("INSERT INTO {0} ({1}) VALUES ({2})", map.GetNameTable<T>(), colStr, valStr);
                 }
             }
         }

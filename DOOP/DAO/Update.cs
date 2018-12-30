@@ -14,9 +14,8 @@ namespace DOOP.DAO
         public Update(SqlConnection cnn, string connectionString, T obj) : base(cnn, connectionString)
         {
             Map mapper = new Map();
-
-            string tableName = mapper.GetTableName<T>();                                //get table name
-            List<PrimaryKey> primaryKeys = mapper.GetPrimaryKey<T>();                   //get list primary key
+            string nameTable = mapper.GetNameTable<T>();                                //get table name
+            List<PrimaryKey> primaryKeys = mapper.GetPK<T>();                   //get list primary key
             Dictionary<Column, object> listColumnValues = mapper.GetColValues<T>(obj);  //get list column value
 
             if (listColumnValues != null && primaryKeys != null)
@@ -56,7 +55,7 @@ namespace DOOP.DAO
                 if (!string.IsNullOrEmpty(whereStr))
                 {
                     whereStr = whereStr.Substring(0, whereStr.Length - 2);
-                    queryString = string.Format("UPDATE {0} SET {1} WHERE {2}", tableName, setStr, whereStr);   //set query string
+                    queryString = string.Format("UPDATE {0} SET {1} WHERE {2}", nameTable, setStr, whereStr);   //set query string
                 }
             }
         }

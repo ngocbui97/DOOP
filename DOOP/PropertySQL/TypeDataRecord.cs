@@ -8,14 +8,15 @@ namespace DOOP_FRAMEWORK.PropertySQL
 {
     public static class TypeDataRecord
     {
-        public static int INT = 0;
-        public static int FLOAT = 1;
-        public static int CHAR = 2;
-        public static int NVARCHAR = 3;
-        public static int VARCHAR = 4;
-        public static int NCHAR = 5; 
-        public static int BOOL = 6;
-        public static int DATE = 7;
-        public static int MONEY = 8;
+        public const int INT = 0;
+        public const int FLOAT = 1;
+        public const int CHAR = 2;
+        public const int NVARCHAR = 3;
+        public const int VARCHAR = 4;
+        public const int NCHAR = 5; 
+        public const int BOOL = 6;
+        public const int DATE = 7;
+        public const int MONEY = 8;
     }
+    
 }

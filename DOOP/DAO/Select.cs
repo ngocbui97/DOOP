@@ -20,7 +20,7 @@ namespace DOOP.DAO
 
             queryString = queryString.Substring(0, queryString.Length - 1);
 
-            queryString = string.Format("{0} FROM {1}", queryString, mapper.GetTableName<T>());
+            queryString = string.Format("{0} FROM {1}", queryString, mapper.GetNameTable<T>());
         }
 
         public static IWhere<T> Create(SqlConnection cnn, string queryStringString)

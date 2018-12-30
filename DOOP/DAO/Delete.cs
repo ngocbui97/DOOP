@@ -20,7 +20,7 @@ namespace DOOP_FRAMEWORK.DAO
             string whereStr=string.Empty ;
             Map map = new Map();
             // get list pkeys
-            List<PrimaryKey> PKS = map.GetPrimaryKey<T>();
+            List<PrimaryKey> PKS = map.GetPK<T>();
             // get list col
             Dictionary<Column, object> listCol = map.GetColValues<T>(obj);        
             foreach (PrimaryKey pk in PKS)
@@ -40,7 +40,7 @@ namespace DOOP_FRAMEWORK.DAO
             if (whereStr!=String.Empty)
             {
                 whereStr = whereStr.Substring(0, whereStr.Length - 2);//=>that string ", "
-                queryString = string.Format("DELETE {0} WHERE {1}", map.GetTableName<T>(), whereStr);
+                queryString = string.Format("DELETE {0} WHERE {1}", map.GetNameTable<T>(), whereStr);
             }
         }
     }

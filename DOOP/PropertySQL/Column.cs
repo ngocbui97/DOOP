@@ -21,7 +21,7 @@ namespace DOOP_FRAMEWORK.PropertySQL
         }
         public int type
         {
-            get { return this.type; }
+            get { return this.dataType; }
             set { this.dataType = value; }
         }
     }

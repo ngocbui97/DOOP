@@ -8,10 +8,10 @@ namespace DOOP_FRAMEWORK.PropertySQL
 {
     public class ManyOne : Relation
     {
-        public string RelationshipID { get; private set; }
-        public string TableName { get; private set; }
+        //public string RelationshipID { get; set; }
+        //public string nameTable { get; set; }
 
-        public ManyOne(string ID, string TableName) : base(ID, TableName)
+        public ManyOne(string RelationID, string NameTableRelation) : base(RelationID, NameTableRelation)
         {
         }
 

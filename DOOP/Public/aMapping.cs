@@ -14,7 +14,7 @@ namespace DOOP_FRAMEWORK.Public
         protected abstract void MapOneToMany<T>(aConnection cnn, DataRow dr, T obj) where T : new();
         protected abstract void MapToOne<T>(aConnection cnn, DataRow dr, T obj) where T : new();
 
-        public string GetTableName<T>() where T : new()
+        public string GetNameTable<T>() where T : new()
         {
             var tableAttributes = typeof(T).GetCustomAttributes(typeof(Table), true);
             var tableAttribute = GetFirstOrNull(tableAttributes, typeof(Table)) as Table;
@@ -23,7 +23,7 @@ namespace DOOP_FRAMEWORK.Public
             return string.Empty;
         }
 
-        internal List<PrimaryKey> GetPrimaryKey<T>() where T : new()
+        public List<PrimaryKey> GetPK<T>() where T : new()
         {
             List<PrimaryKey> listPK = new List<PrimaryKey>();
             var listp = typeof(T).GetProperties();
@@ -38,7 +38,7 @@ namespace DOOP_FRAMEWORK.Public
            else return null;
         }
 
-        internal List<ForeignKey> GetForeignKey<T>(string ID) where T : new()
+        public List<ForeignKey> GetFK<T>(string ID) where T : new()
         {
             List<ForeignKey> listFK = new List<ForeignKey>();
 
@@ -156,14 +156,18 @@ namespace DOOP_FRAMEWORK.Public
         {
             T obj = new T();
             var listp = typeof(T).GetProperties();
-            for (int i = 0; i < listp.Length; i++)
+            //for (int i = 0; i < listp.Length; i++)
+            foreach(var p in listp)
             {
-                var p = listp[i];
+               // var p = listp[i];
+                //get value object Column
                 var column = GetFirstOrNull(p.GetCustomAttributes(false), typeof(Column));
 
                 if (column != null)
                 {
+                    // parse to value of Column
                     var mapsTo = column as Column;
+                    //set value tuong ung for obj 
                     p.SetValue(obj, dr[mapsTo.name]);
                 }
             }
@@ -187,7 +191,7 @@ namespace DOOP_FRAMEWORK.Public
                 if (column != null)
                 {
                     var mapsTo = column as Column;
-                    p.SetValue(obj, dr[mapsTo.name]);
+                    listp[i].SetValue(obj, dr[mapsTo.name]);
                 }
             }
 

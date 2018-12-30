@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DOOP_FRAMEWORK.PropertySQL
 {
-    class PrimaryKey:Attribute
+    public class PrimaryKey:Attribute
     {
         private string Name;
         private bool Auto;

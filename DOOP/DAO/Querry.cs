@@ -24,8 +24,8 @@ namespace DOOP.DAO
         /// <param name="queryString"></param>
         public Querry(SqlConnection cnn, string cnnString, string queryString)
         {
-            cmd = new SqlCommand();
-            cmd.Connection = cnn;
+            this.cmd = new SqlCommand();
+            this.cmd.Connection = cnn;
             this.cnnString = cnnString;       
             this.queryString = queryString;
         }
@@ -36,8 +36,8 @@ namespace DOOP.DAO
         /// <param name="cnnString"></param>
         public Querry(SqlConnection cnn, string cnnString)
         {
-            cmd = new SqlCommand();
-            cmd.Connection = cnn;
+            this.cmd = new SqlCommand();
+            this.cmd.Connection = cnn;
             this.cnnString = cnnString;
         }
         /// <summary>
@@ -56,7 +56,12 @@ namespace DOOP.DAO
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             adapter.Fill(dt);
             foreach (DataRow dr in dt.Rows)
+            {
+                T t = new T();
+                t = map.MapAndRelationship<T>(cnn, dr);
                 res.Add(map.MapAndRelationship<T>(cnn, dr));
+            }
+          //re turn list of object 
             return res;
         }
         /// <summary>
